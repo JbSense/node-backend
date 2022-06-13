@@ -1,7 +1,3 @@
-class Response {
-    constructor(success) {
-        this.success = success;
-    }
-}
+class Response {}
 
 export default Response;
