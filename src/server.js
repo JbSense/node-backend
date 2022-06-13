@@ -8,41 +8,14 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 
-const jsonReq = {
-    "from": "http://localhost:8080",
-    "action": {
-        "controller": "",
-        "method": "",
-        "params": []
-    }
-}
-
-function useController(controller, params) {
-    return "new " + controller + "(" + params + ")"
-}
-
-function useMethod(method, params) {
-    const controller = useController(controller, params)
-    return controller.method(params)
-}
-
-function buildResponse(req) {
-    var response = {
-        "status": 200,
-        "body": {
-            "message": "OK",
-            "data": req.body
-        }
-    }
-
-    return response
-}
-
 app.get('/', (req, res) => {
+    console.log(req.body)
     const controller = new Controller(req.body.action)
 
+    const result = controller.callMethod()
 
-    res.send();
+    res.send(result);
 })
 
+// Initialize server on port 3000
 app.listen(3000, () => console.log('Server listening on port 3000'));
