@@ -1,6 +1,5 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import Controller from '../services/Controller.js';
 
 const app = express();
 
@@ -13,7 +12,7 @@ const jsonReq = {
     "action": {
         "controller": "",
         "method": "",
-        "params": []
+        "params": {}
     }
 }
 
@@ -39,10 +38,9 @@ function buildResponse(req) {
 }
 
 app.get('/', (req, res) => {
-    const controller = new Controller(req.body.action)
-
-
-    res.send();
+    const result = buildResponse(req)
+    console.log(result)
+    res.send(result);
 })
 
 app.listen(3000, () => console.log('Server listening on port 3000'));
