@@ -7,14 +7,18 @@ const app = express();
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-
+/**
+ * Unique route for api
+ * 
+ * @param {json}
+ * @returns {json}
+ */
 app.get('/', (req, res) => {
-    console.log(req.body)
     const controller = new Controller(req.body.action)
 
-    const result = controller.callMethod()
-
-    res.send(result);
+    res.send({ 
+        data: controller.callMethod()
+    });
 })
 
 // Initialize server on port 3000

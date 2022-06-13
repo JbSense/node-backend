@@ -3,7 +3,7 @@ class UserController {
         var name = data.name
         var last_name = data.last_name
 
-        return "Nome: " + name + " " + last_name
+        return name + " " + last_name
     }
 }
 
