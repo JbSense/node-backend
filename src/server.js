@@ -1,9 +1,10 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import database from '../services/Database.js';
-import Controller from '../services/Controller.js';
-import 'dotenv/config.js';
-import UserController from './controllers/UserController.js';
+import express from 'express'
+import bodyParser from 'body-parser'
+import database from '../services/Database.js'
+import Controller from '../services/Controller.js'
+import Response from '../services/Response.js'
+import 'dotenv/config.js'
+
 
 const app = express();
 
@@ -28,10 +29,13 @@ try {
  */
 app.get('/', async (req, res) => {
     const controller = new Controller(req.body.action)
-    const result = await controller.callMethod()
+    const response = new Response(await controller.callMethod())
+
+    response.setFrom(req.body.from)
+    response.setAction(req.body.action)
 
     res.send({
-        response: result
+        response: response.getResponse()
     })
 })
 

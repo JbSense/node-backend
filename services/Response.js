@@ -9,17 +9,28 @@ export default class Response {
         }
 
         this.response = {
-            status: null,
+            status: (resultRequest.error == null) ? 200 : 400,
+            from: null,
             action: {
                 controller: "",
                 method: "",
                 params: {}
             },
-            data: {},
-            error: {}
+            data: resultRequest.data,
+            error: resultRequest.error
         }
 
         this.resultRequest = resultRequest
+    }
+
+    setFrom(from) {
+        this.response.from = from
+    }
+
+    setAction(action) {
+        this.response.action.controller = action.controller
+        this.response.action.method = action.method
+        this.response.action.params = action.params
     }
 
     setError(error) {
@@ -27,10 +38,14 @@ export default class Response {
     }
 
     setStatus() {
-        if(this.resultRequest.success) {
+        if(this.resultRequest.error == null) {
             this.response.status = this.status.success
         } else {
             this.response.status = this.status.badRequest
         }
+    }
+
+    getResponse() {
+        return this.response
     }
 }

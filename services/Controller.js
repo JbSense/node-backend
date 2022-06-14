@@ -7,18 +7,27 @@ export default class Controller {
     constructor(action) {
         this.controller = action.controller
         this.method = action.method
-        this.params = action.params
+        this.params = JSON.stringify(action.params)
     }
 
-    callMethod() {
+    async callMethod() {
         try {
-            if(this.params != null) {
-                return eval(`new ${this.controller}().${this.method}(${this.params})`)
+            if(this.params != {}) {
+                return {
+                    data: await eval(`new ${this.controller}().${this.method}(${this.params})`),
+                    error: null
+                }
             } else {
-                return eval(`new ${this.controller}().${this.method}()`)
+                return {
+                    data: await eval(`new ${this.controller}().${this.method}()`),
+                    error: null
+                }
             }
         } catch(error) {
-            return error
+            return {
+                data: null,
+                error: error.message
+            }
         }
     }
 }

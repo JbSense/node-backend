@@ -10,8 +10,6 @@ export default class UserController {
 
     async getUsers() {
         const result = await User.findAll()
-        return {
-            data: result[0].dataValues
-        }
+        return result[0].dataValues
     }
 }
