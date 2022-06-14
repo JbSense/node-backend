@@ -24,4 +24,4 @@ const User = database.define('user', {
 	}
 }, {underscored: true})
 
-export default User;
+export default User

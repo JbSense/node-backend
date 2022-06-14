@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 
-class UserController {
+export default class UserController {
     setUser(data) {
         var name = data.name
         var last_name = data.last_name
@@ -15,5 +15,3 @@ class UserController {
         }
     }
 }
-
-export default UserController;

@@ -1,3 +1,1 @@
-class Model {}
-
-export default Model;
+export class Model {}

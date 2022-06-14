@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import database from '../services/Database.js';
 import Controller from '../services/Controller.js';
 import 'dotenv/config.js';
+import UserController from './controllers/UserController.js';
 
 const app = express();
 
@@ -19,7 +20,6 @@ try {
     console.log('Unable to connect to the database')
 }
 
-
 /**
  * Unique route for api
  * 
@@ -28,13 +28,11 @@ try {
  */
 app.get('/', async (req, res) => {
     const controller = new Controller(req.body.action)
-    controller.setController(req.body.action.controller)
-    controller.setMethod(req.body.action.method, req.body.action.params)
     const result = await controller.callMethod()
 
     res.send({
         response: result
-    });
+    })
 })
 
 /** 
