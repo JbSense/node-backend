@@ -9,28 +9,16 @@ const app = express();
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-
-// Connect to the database
-// database.authenticate().then(() => {
-//     console.log('Connection has benn established sucessfully')
-// }).catch(error => {
-//     console.log('Unable to connect to the database')
-// })
-
 /**
  * Sync with database
  */
-async function connect() {
-    try {
-        await database.sync();
-        console.log('-----------------------------------')
-        console.log('Connection has benn established sucessfully')
-    } catch (error) {
-        console.log('-----------------------------------')
-        console.log('Unable to connect to the database')
-        console.log(error);
-    }
-};
+try {
+    database.sync();
+    console.log('Connection has benn established sucessfully')
+} catch (error) {
+    console.log('Unable to connect to the database')
+}
+
 
 /**
  * Unique route for api
@@ -38,12 +26,14 @@ async function connect() {
  * @param {json}
  * @returns {json}
  */
-app.get('/', (req, res) => {
-    connect()
+app.get('/', async (req, res) => {
     const controller = new Controller(req.body.action)
+    controller.setController(req.body.action.controller)
+    controller.setMethod(req.body.action.method, req.body.action.params)
+    const result = await controller.callMethod()
 
-    res.send({ 
-        data: controller.callMethod()
+    res.send({
+        response: result
     });
 })
 

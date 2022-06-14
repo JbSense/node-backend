@@ -2,25 +2,42 @@ import Response from './Response.js';
 
 // Controllers imports
 import UserController from '../src/controllers/UserController.js';
+import e from 'express';
 
 class Controller {
     constructor(action) {
-        this.controller = "new " + action.controller + "()";
-        this.method = action.method;
-        this.params = JSON.stringify(action.params);
+        this.controller = "";
+        this.method = "";
+        this.params = "";
+    }
+
+    setController(controller) {
+        try {
+            this.controller = eval("new " + controller + "()")
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
+    setMethod(method, params = null) {
+        if(params != null) {
+            this.method = method + "(" + JSON.stringify(params) + ")"
+        } else {
+            this.method = method + "()"
+        }
     }
 
     callMethod() {
+        // if(this.params != null) {
+        //     return eval(this.controller + "." + this.method + "(" + JSON.stringify(this.params) + ")")
+        // } else {
+        //     return eval(this.controller + "." + this.method + "()")
+        // }
+
         try {
-            return {
-                status: 200,
-                response: eval(this.controller + "." + this.method + "(" + this.params + ")")
-            }
-        } catch (error) {
-            return {
-                status: 400,
-                error: "Bad request"
-            }
+            return eval(this.controller + "." + this.method)
+        } catch(error) {
+            console.log(error)
         }
     }
 }
